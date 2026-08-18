@@ -61,6 +61,20 @@ Or manually: append `dsh-plugin-edit-regenerate` to `dsh.profile.bundles` and ad
 
 Restart DSH for the changes to take effect. The two profiles are independent — installing into one does not affect the other.
 
+## Troubleshooting
+
+**A forked conversation fails to reload after restarting DSH** (`SessionFormatUnsupportedError: ... unknown to this harness and not marked ignorable`)
+
+A fork copies the parent session's event log verbatim. If the parent contains events written by other plugins that this harness build does not recognize and that are not marked `ignorable` in their envelope — e.g. the `session/distill-review-request` event written by `@loserfox/distill` before its #5 fix — the forked log refuses to load after a restart (the parent session itself is affected the same way). The plugin releases that wrote those events have since stopped writing them, but logs that already contain them need a one-time migration: mark the offending events `ignorable: true`.
+
+Run the bundled repair script (stop DSH first):
+
+```bash
+node scripts/repair-session-logs.mjs
+```
+
+It discovers every `session.jsonl.zstd` under `$DSH_HOME/sessions` (default `~/.dsh/sessions`), marks the legacy events ignorable while preserving the rest of the log byte-for-byte, and backs each file up to `<file>.bak`. Pass explicit log paths for a targeted run, or `--dry-run` for a preview of what would change.
+
 ## License
 
 MIT

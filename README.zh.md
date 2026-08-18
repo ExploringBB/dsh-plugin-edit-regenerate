@@ -64,3 +64,17 @@ dsh plugin --profile web add file:./dsh-plugin-edit-regenerate
 `"dsh-plugin-edit-regenerate": "file:<绝对路径>"`，然后在该 profile 目录执行 `pnpm install`。
 
 重启 DSH 后生效。两个 profile 相互独立——装到其中一个不会影响另一个。
+
+## 故障排查
+
+**分叉会话在重启 DSH 后无法重新加载**（`SessionFormatUnsupportedError: ... unknown to this harness and not marked ignorable`）
+
+分叉会原样复制父会话的事件日志。如果父会话含有本 harness 构建不认识、且事件信封未标记 `ignorable` 的其他插件事件——例如 `@loserfox/distill` 在 #5 修复之前写入的 `session/distill-review-request` 事件——分叉日志在重启后会被拒绝加载（父会话本身同样受影响）。写入这些事件的插件版本已停止写入，但已经含有这些事件的日志仍需要一次性迁移：为相关事件补上 `ignorable: true`。
+
+运行仓库自带的修复脚本（请先停止 DSH）：
+
+```bash
+node scripts/repair-session-logs.mjs
+```
+
+该脚本扫描 `$DSH_HOME/sessions`（默认为 `~/.dsh/sessions`）下的所有 `session.jsonl.zstd`，在逐字节保留日志其余部分的同时为遗留事件补上 `ignorable` 标记，并把每个文件备份为 `<file>.bak`。可传入具体日志路径进行定向修复，或用 `--dry-run` 预览将要修改的内容。
