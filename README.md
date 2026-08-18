@@ -6,6 +6,14 @@
 
 A [DSH (DeepSeek Harness)](https://github.com/deepseek-ai/dsh) plugin that lets you **edit a user message** in conversation history: click the "✎ Edit" button under a user bubble, confirm the revision, and the system drops everything after that message and **regenerates** from the revised prompt.
 
+## Demo
+
+The screenshot below demonstrates the core edit-and-regenerate flow: the `✎ 编辑` button on a user bubble (kept alongside the stock `⧉ 复制`), and the revised prompt regenerating the reply.
+
+<p align="center">
+  <img src="demo.png" alt="demo" width="800" />
+</p>
+
 ## Behavior
 
 - **Non-first message**: forks a new child session at the end of the previous turn (`sessions.fork` + prompt + open); the original session is left untouched.
