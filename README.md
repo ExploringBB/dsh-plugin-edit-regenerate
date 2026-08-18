@@ -34,13 +34,23 @@ A single DSH plugin package that declares both halves:
 
 ## Install (persistent)
 
+The plugin is installed per profile — pick the profile that matches how you run DSH:
+
+| Version | Profile | Directory |
+| --- | --- | --- |
+| DSH Desktop app (Electron) | `desktop` | `C:\Users\<user>\.dsh\profiles\desktop` |
+| Official launcher / CLI (`dsh web`) | `web` | `C:\Users\<user>\.dsh\profiles\web` |
+
 ```bash
+# DSH Desktop app
+dsh plugin --profile desktop add file:./dsh-plugin-edit-regenerate
+# Official launcher / CLI
 dsh plugin --profile web add file:./dsh-plugin-edit-regenerate
 ```
 
-Or manually: append `dsh-plugin-edit-regenerate` to `dsh.profile.bundles` and add `"dsh-plugin-edit-regenerate": "file:<absolute path>"` to `dependencies` in `C:\Users\<user>\.dsh\profiles\web\package.json`, then run `pnpm install` in that profile.
+Or manually: append `dsh-plugin-edit-regenerate` to `dsh.profile.bundles` and add `"dsh-plugin-edit-regenerate": "file:<absolute path>"` to `dependencies` in that profile's `package.json` (e.g. `C:\Users\<user>\.dsh\profiles\desktop\package.json`), then run `pnpm install` in the profile directory.
 
-Restart DSH for the changes to take effect.
+Restart DSH for the changes to take effect. The two profiles are independent — installing into one does not affect the other.
 
 ## License
 

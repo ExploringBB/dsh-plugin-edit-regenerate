@@ -34,13 +34,23 @@
 
 ## 安装（持久化）
 
+插件按 profile 安装，先确定你用的是哪个版本：
+
+| 版本 | Profile | 目录 |
+| --- | --- | --- |
+| DSH Desktop 桌面版 | `desktop` | `C:\Users\<user>\.dsh\profiles\desktop` |
+| 官方原版启动版（命令行 `dsh web`） | `web` | `C:\Users\<user>\.dsh\profiles\web` |
+
 ```bash
-# 安装到 web profile（本地目录）
+# DSH Desktop 桌面版
+dsh plugin --profile desktop add file:./dsh-plugin-edit-regenerate
+# 官方原版启动版（命令行）
 dsh plugin --profile web add file:./dsh-plugin-edit-regenerate
 ```
 
-或手动安装：在 `C:\Users\<user>\.dsh\profiles\web\package.json` 的
-`dsh.profile.bundles` 追加 `dsh-plugin-edit-regenerate`、在 `dependencies` 追加
-`"dsh-plugin-edit-regenerate": "file:<绝对路径>"`，然后在该 profile 执行 `pnpm install`。
+或手动安装：在对应 profile 的 `package.json`（如
+`C:\Users\<user>\.dsh\profiles\desktop\package.json`）的 `dsh.profile.bundles`
+追加 `dsh-plugin-edit-regenerate`、在 `dependencies` 追加
+`"dsh-plugin-edit-regenerate": "file:<绝对路径>"`，然后在该 profile 目录执行 `pnpm install`。
 
-重启 DSH 后生效。
+重启 DSH 后生效。两个 profile 相互独立——装到其中一个不会影响另一个。
