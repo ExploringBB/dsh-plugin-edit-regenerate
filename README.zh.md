@@ -1,5 +1,9 @@
 # dsh-plugin-edit-regenerate
 
+<p align="center">
+  <a href="README.md"><b>English</b></a> · <b>简体中文</b>
+</p>
+
 在对话历史中**编辑用户输入**：点击用户气泡下的「✎ 编辑」修改内容，确认「确定修订」后，系统删除该消息之后的所有内容，并以修订后的提示词**重新生成**。
 
 ## 行为语义

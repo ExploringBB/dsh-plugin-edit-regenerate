@@ -1,5 +1,9 @@
 # dsh-plugin-edit-regenerate
 
+<p align="center">
+  <b>English</b> · <a href="README.zh.md"><b>简体中文</b></a>
+</p>
+
 A [DSH (DeepSeek Harness)](https://github.com/deepseek-ai/dsh) plugin that lets you **edit a user message** in conversation history: click the "✎ Edit" button under a user bubble, confirm the revision, and the system drops everything after that message and **regenerates** from the revised prompt.
 
 ## Behavior
