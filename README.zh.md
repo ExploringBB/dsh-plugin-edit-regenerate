@@ -45,10 +45,10 @@
 
 插件按 profile 安装，先确定你用的是哪个版本：
 
-| 版本 | Profile | 目录 |
-| --- | --- | --- |
-| DSH Desktop 桌面版 | `desktop` | `C:\Users\<user>\.dsh\profiles\desktop` |
-| 官方原版启动版（命令行 `dsh web`） | `web` | `C:\Users\<user>\.dsh\profiles\web` |
+| 版本 | Profile | Windows | macOS | Linux |
+| --- | --- | --- | --- | --- |
+| DSH Desktop 桌面版 | `desktop` | `C:\Users\<user>\.dsh\profiles\desktop` | `/Users/<user>/.dsh/profiles/desktop` | `/home/<user>/.dsh/profiles/desktop` |
+| 官方原版启动版（命令行 `dsh web`） | `web` | `C:\Users\<user>\.dsh\profiles\web` | `/Users/<user>/.dsh/profiles/web` | `/home/<user>/.dsh/profiles/web` |
 
 ```bash
 # DSH Desktop 桌面版
@@ -57,8 +57,9 @@ dsh plugin --profile desktop add file:./dsh-plugin-edit-regenerate
 dsh plugin --profile web add file:./dsh-plugin-edit-regenerate
 ```
 
-或手动安装：在对应 profile 的 `package.json`（如
-`C:\Users\<user>\.dsh\profiles\desktop\package.json`）的 `dsh.profile.bundles`
+或手动安装：在对应 profile 的 `package.json`（如 Windows 的
+`C:\Users\<user>\.dsh\profiles\desktop\package.json`，或 macOS/Linux 的
+`~/.dsh/profiles/desktop/package.json`）的 `dsh.profile.bundles`
 追加 `dsh-plugin-edit-regenerate`、在 `dependencies` 追加
 `"dsh-plugin-edit-regenerate": "file:<绝对路径>"`，然后在该 profile 目录执行 `pnpm install`。
 

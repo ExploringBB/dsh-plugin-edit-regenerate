@@ -45,10 +45,10 @@ A single DSH plugin package that declares both halves:
 
 The plugin is installed per profile — pick the profile that matches how you run DSH:
 
-| Version | Profile | Directory |
-| --- | --- | --- |
-| DSH Desktop app (Electron) | `desktop` | `C:\Users\<user>\.dsh\profiles\desktop` |
-| Official launcher / CLI (`dsh web`) | `web` | `C:\Users\<user>\.dsh\profiles\web` |
+| Version | Profile | Windows | macOS | Linux |
+| --- | --- | --- | --- | --- |
+| DSH Desktop app (Electron) | `desktop` | `C:\Users\<user>\.dsh\profiles\desktop` | `/Users/<user>/.dsh/profiles/desktop` | `/home/<user>/.dsh/profiles/desktop` |
+| Official launcher / CLI (`dsh web`) | `web` | `C:\Users\<user>\.dsh\profiles\web` | `/Users/<user>/.dsh/profiles/web` | `/home/<user>/.dsh/profiles/web` |
 
 ```bash
 # DSH Desktop app
@@ -57,7 +57,7 @@ dsh plugin --profile desktop add file:./dsh-plugin-edit-regenerate
 dsh plugin --profile web add file:./dsh-plugin-edit-regenerate
 ```
 
-Or manually: append `dsh-plugin-edit-regenerate` to `dsh.profile.bundles` and add `"dsh-plugin-edit-regenerate": "file:<absolute path>"` to `dependencies` in that profile's `package.json` (e.g. `C:\Users\<user>\.dsh\profiles\desktop\package.json`), then run `pnpm install` in the profile directory.
+Or manually: append `dsh-plugin-edit-regenerate` to `dsh.profile.bundles` and add `"dsh-plugin-edit-regenerate": "file:<absolute path>"` to `dependencies` in that profile's `package.json` (e.g. `C:\Users\<user>\.dsh\profiles\desktop\package.json` on Windows, or `~/.dsh/profiles/desktop/package.json` on macOS/Linux), then run `pnpm install` in the profile directory.
 
 Restart DSH for the changes to take effect. The two profiles are independent — installing into one does not affect the other.
 
