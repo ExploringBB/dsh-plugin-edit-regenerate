@@ -11,6 +11,7 @@ A [DSH (DeepSeek Harness)](https://github.com/deepseek-ai/dsh) plugin that lets 
 - **Non-first message**: forks a new child session at the end of the previous turn (`sessions.fork` + prompt + open); the original session is left untouched.
 - **First message**: creates a fresh blank session in the same workspace and regenerates with the revised text as the opening prompt.
 - Messages with attachments are resent as plain text after revision (attachments are not kept; the UI warns about this).
+- The user bubble keeps its original **copy** action: a `⧉ 复制` button now sits right next to `✎ 编辑`, so both actions coexist on every user message (the plugin's renderer shadows the stock one, so it re-implements copy instead of dropping it).
 - Session storage is an append-only log and cannot be truncated in place; forking is the platform-native "edit and regenerate".
 
 ## Architecture
@@ -30,7 +31,7 @@ A single DSH plugin package that declares both halves:
 ### Browser (`lib/client.js`)
 
 - Mounts `TYPERT_REMOTE` and installs `remote.editRegenerate` into the runtime;
-- takes over the `conversation.chat.node` slot's `user` key renderer at `priority: -1` (the stock `user` renderer is shadowed; other keys such as `steering` are unaffected), rendering an editable user bubble.
+- takes over the `conversation.chat.node` slot's `user` key renderer at `priority: -1` (the stock `user` renderer is shadowed; other keys such as `steering` are unaffected), rendering an editable user bubble that keeps the copy action (`⧉ 复制` next to `✎ 编辑`) so no stock functionality is lost.
 
 ## Install (persistent)
 
