@@ -1,0 +1,12 @@
+# dsh-plugin-edit-regenerate bundle patch.
+#
+# One host entry inserted into the loader tree: the editRegenerate Typert
+# Remote service that resolves the fork boundary (or fresh-session workspace)
+# for an edited user message. The browser half is discovered automatically
+# from the `dsh.client` declaration in package.json.
+#
+# NOTE: entries are added via an `insert` list (top-level `- id: ...` rows are
+# overrides and are dropped when the id does not already exist).
+- insert:
+    - id: edit-regenerate
+      name: dsh-plugin-edit-regenerate
