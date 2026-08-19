@@ -61,6 +61,25 @@ Or manually: append `dsh-plugin-edit-regenerate` to `dsh.profile.bundles` and ad
 
 Restart DSH for the changes to take effect. The two profiles are independent — installing into one does not affect the other.
 
+### Updating after pulling new changes
+
+Because pnpm copies `file:` dependencies into each profile's `node_modules` (a shallow copy under the hoisted layout), a `git pull` that updates the source does **not** automatically reach a profile that is already installed. When you pull new changes, first **check whether the target profile still holds a copy** of the plugin in the system:
+
+- Look under the profile's `node_modules` — e.g. `C:\Users\<user>\.dsh\profiles\desktop\node_modules\dsh-plugin-edit-regenerate` (and the same for `web` if you installed it there too).
+- Each profile that still has a copy needs its copy refreshed.
+
+Then decide **whether an update + copy is actually necessary**. If the running DSH has not loaded the plugin yet (never started, or you only edit a version that is not currently in use), you can skip the copy and simply run `pnpm install` / restart with the new source. If the profile's copy already exists and the current DSH run depends on it (or you want the pull to take effect), refresh the copy by one of:
+
+```bash
+# Copy the whole plugin directory over the profile's copy, excluding VCS metadata:
+robocopy "F:\path\to\dsh-plugin-edit-regenerate" "C:\Users\<user>\.dsh\profiles\desktop\node_modules\dsh-plugin-edit-regenerate" /MIR /XD .git
+# or force pnpm to refresh/resolve:
+# -- in the profile directory --
+pnpm install --force
+```
+
+Once you have determined that an update is needed, the copy can be carried out automatically (for example by an AI agent performing the copy step as part of the update workflow). After refreshing the copy, restart DSH for the change to take effect.
+
 ## Troubleshooting
 
 **A forked conversation fails to reload after restarting DSH** (`SessionFormatUnsupportedError: ... unknown to this harness and not marked ignorable`)

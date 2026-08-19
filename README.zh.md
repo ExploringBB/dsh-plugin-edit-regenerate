@@ -65,6 +65,24 @@ dsh plugin --profile web add file:./dsh-plugin-edit-regenerate
 
 重启 DSH 后生效。两个 profile 相互独立——装到其中一个不会影响另一个。
 
+### 拉取更新后的更新流程
+
+由于 pnpm 会把 `file:` 依赖**拷贝**到每个 profile 的 `node_modules`（hoisted 布局下是浅拷贝），执行 `git pull` 更新源码后，**不会**自动同步到已安装的 profile。当你拉取到新变更时，先**检查目标 profile 在系统中是否还保存着该插件的副本**：
+
+- 查看该 profile 的 `node_modules`，例如 `C:\Users\<user>\.dsh\profiles\desktop\node_modules\dsh-plugin-edit-regenerate`（如果 `web` 也装了，同样的路径再查一份）；
+- 只要某个 profile 还留有副本，它的副本就需要刷新。
+
+然后**判断是否确实需要更新并拷贝**。如果当前运行的 DSH 还没有加载该插件（例如从未启动，或你改动的是一个当前未使用的版本），可以跳过拷贝，直接用新源码 `pnpm install` / 重启即可；如果该 profile 已存在副本、且当前 DSH 运行依赖它（或你希望本次 pull 立即生效），则按以下任一种方式刷新副本：
+
+```bash
+# 把整个插件目录镜像覆盖到目标 profile 的副本（排除 VCS 元数据）：
+robocopy "F:\路径\dsh-plugin-edit-regenerate" "C:\Users\<user>\.dsh\profiles\desktop\node_modules\dsh-plugin-edit-regenerate" /MIR /XD .git
+# 或强制 pnpm 刷新 / 重新解析（在 profile 目录下执行）：
+# pnpm install --force
+```
+
+一旦判定确实需要更新，拷贝步骤可交由工具自动执行（例如由 AI 在更新流程中自动完成拷贝）。刷新副本后，重启 DSH 使变更生效。
+
 ## 故障排查
 
 **分叉会话在重启 DSH 后无法重新加载**（`SessionFormatUnsupportedError: ... unknown to this harness and not marked ignorable`）
